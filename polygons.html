@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Lab 07 Starter Template</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+       <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+   integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+   crossorigin=""></script>
+
+ 
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+   integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+   crossorigin=""/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+        header {
+            padding: 6px 10%;
+        }
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+        /* Additional style rules go here! */
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Map Title</h1>
+        <h2>Map Subtitle</h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+        <p>Map authored by YOUR NAME</p>
+        <p>Additional information about the data and map goes here.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. Duis a elit eget risus dictum vehicula id eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sed enim nisl. Vestibulum commodo imperdiet lacus, sed facilisis erat placerat sit amet. Nulla consequat malesuada neque eget aliquet. Integer non convallis nisl, gravida ultrices ex. Fusce nec vestibulum elit. Sed elementum lectus ipsum, vulputate elementum ex laoreet a. Aenean eu ex varius, varius felis vitae, efficitur nulla. Quisque pretium laoreet ante, in sodales dui vehicula at. Mauris eu sem sapien.
+        </p>
+    </footer>
+
+    <script>
+        
+        
+    // 4 city polygon - when you mouse over a) change the focus of and color and when you mouse out change the color back    
+        // the third polygon gives the popup
+    
+     var options = {
+        center: [41, -109.03],
+        zoom: 3
+    }
+    
+    var map = L.map('map', options);
+    
+    var Thunderforest_SpinalMap =  L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+    map.addLayer(Thunderforest_SpinalMap);
+     
+var W1 = {
+    name: "Zion National Park", 
+    coordinates: [37.317207, -113.022537]
+}
+
+console.log(W1)
+
+var W2 = {
+   name: "Yellowstone National Park",
+    coordinates: [44.429764, -110.584663]
+}
+
+
+
+var W3 = {
+    name: "Halekala National Park",
+    coordinates: [20.701283,	-156.173325]
+} 
+
+var W4 = {
+    name: "Yosemite National Park", 
+    coordinates: [37.865101, -119.538330]
+}
+
+var E1 = {
+    name: "Shenandoah National Park",
+        coordinates: [38.700516, -78.292694]
+}
+    
+var E2 = {
+    name: "Hillman State Park",
+        coordinates: [44.9778, -93.2650]
+}
+        
+ 
+var E3 = {
+    name: "Ricketts Glen National Park",
+    coordinates: [41.339184, -76.290436]
+} 
+        
+var E4 = {
+    name :"Kennesaw Mountain National Battlefield Park", 
+    coordinates: [33.976376, -84.579163  ]
+}
+
+var ecc = [E2.coordinates, E3.coordinates, E1.coordinates, E4.coordinates]
+
+console.log (ecc)
+
+
+var ecOptions = {
+    color: "#8B4513",
+    weight: 15,
+    fillOpacity: .6
+}
+
+var wcOptions = {
+    color: "#008000",
+    weight: 15,
+    fillOpacity: .6
+}
+    
+        
+        
+var wcc = [W1.coordinates, W2.coordinates, W4.coordinates, W3.coordinates]      
+
+console.log (wcc)
+        
+var parks = L.layerGroup()
+
+var ec = L.polygon ([ecc], ecOptions)
+ec.addTo(parks)
+
+
+var ecBounds = ec.getBounds()
+console.log (ecBounds)
+
+
+        
+var wc = L.polygon ([wcc], wcOptions)
+wc.addTo(parks)
+parks.addTo(map)
+        
+console.log(wc)        
+        
+ ec.color = 'brown'
+ wc.color = 'green'
+
+        var wcBounds = wc.getBounds()
+console.log (wcBounds)
+
+parks.eachLayer(function(layer) {
+    layer.on('mouseover', function(e) {
+         console.log(e)
+        
+        
+         if(e.target.color == 'brown'){
+             e.target.setStyle({
+             color: 'green',
+            GIS: 'yes'    
+                  
+         }),
+         layer.bindTooltip ("<b>East Coast National Parks</b>").openPopup()
+            map.fitBounds(ecBounds)
+        }
+        else if (e.target.color == 'green') 
+             e.target.setStyle({
+             color: '#8B4513',    
+         }),
+        layer.bindTooltip ("<b>West Coast National Parks</b>").openPopup() 
+    //map.zoomIn(7)
+            })
+
+ layer.on('mouseout', function(e) {
+        if(e.target.color == 'brown') {
+            e.target.setStyle(ecOptions)
+            ec.closePopup()
+          map.setView([41, -109.03], 3)
+        } else if (e.target.color == 'green') {
+                e.target.setStyle(wcOptions)  
+             wc.closePopup()
+           map.setView([41, -109.03], 3)
+        }
+    });
+})
+
+
+        
+
+
+        
+//var westCoast = L.polygon ([[37.317207	-113.022537], [40.570,-74.001], [37, -102.04]])
+  //      polygonB.addTo(triad)
+        
+
+/*var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
+var polygon = L.polygon(latlngs, {color: 'red'})
+polygon.addTo(conflictZones)
+
+conflictZones.addTo(map)*/
+         
+       
+
+ // 3 polygons use mouseover and mouse out and also remember to click zoom in 
+ /* var pizza = L.layerGroup();
+        
+        var difaraOptions = {
+            color: 'red',
+            fillColor: 'red',
+            fillOpacity: 8	38.700516	-78.292694
+            
+            
+        }
+
+        var totonnosOptions = {
+            color: 'yellow',
+            fillColor: 'yellow',
+            fillOpacity: 8
+        }
+        
+        var annaMariaOptions = {
+            color: 'purple',
+            fillColor: 'purple',
+            fillOpacity: 8
+        }
+        
+        
+var difara = L.rectangle([[40.629377,-73.9702351], [40.626,-73.9585625]]
+                         , difaraOptions);
+
+
+
+        difara.addTo(pizza)
+        
+var totonnos = L.rectangle ([[40.5788329,-73.9859986], [40.570,-74.001]], totonnosOptions)
+        totonnos.addTo(pizza)
+        pizza.addTo(map)
+        
+        
+var annaMaria = L.rectangle([[40.7177464,-73.9578736,19], [40.707, -73.962]], annaMariaOptions)   
+        annaMaria.addTo(pizza)
+        pizza.addTo(map)    
+    
+    
+    pizza.eachLayer(function(layer) {
+    layer.on('mouseover', function(e) {
+        layer.bindPopup ("<b>Pizza Zone</b>") 
+        if(e.target.color == 'red'){
+             e.target.setStyle({
+             color: 'black',
+              fillColor: 'black'     
+         })
+        }
+        else if (e.target.color == 'yellow') 
+             e.target.setStyle({
+             color: 'grey',
+              fillColor: 'grey'     
+         })
+        
+            })
+        
+                    
+        totonnos.color = 'yellow'
+        difara.color = 'red'
+        annaMaria.color = 'purple'
+      */
+        
+        /*pizza.eachLayer(function(layer) {
+    layer.on('mouseover', function(e) {
+        layer.bindPopup ("<b>Pizza Zone</b>") 
+        if(e.target.color == 'red'){
+             e.target.setStyle({
+             color: 'black',
+              fillColor: 'black'     
+         })
+        }
+        else if (e.target.color == 'yellow') 
+             e.target.setStyle({
+             color: 'grey',
+              fillColor: 'grey'     
+         })
+        
+            })
+              layer.on('mouseout', function(e) {
+        if(e.target.color == 'black') {
+            e.target.setStyle(difara.color);
+        } else if (e.target.color == 'grey') {
+                e.target.setStyle(totonnos.color);      
+        }
+    });
+        })*/
+        
+        
+        /*pizza.eachLayer(function(layer) {
+    layer.on('mouseover', function(e) {
+        if(e.target.color == 'red'){
+             e.target.setStyle({
+             color: 'black',
+              fillColor: 'black' 
+         })
+        }
+        else if (e.target.color == 'yellow') 
+             e.target.setStyle({
+             color: 'grey',
+              fillColor: 'grey'     
+         })
+             else if (e.target.color == 'purple') 
+             e.target.setStyle({
+             color: 'orange',
+              fillColor: 'orange'     
+         })
+            })
+             
+    layer.on('mouseout', function(e) {
+        if(e.target.color == 'yellow') {
+            e.target.setStyle(totonnosOptions);
+        } else if (e.target.color == 'red') {
+                e.target.setStyle(difaraOptions);      
+        } else if (e.target.color == 'purple') {
+                e.target.setStyle(annaMariaOptions);      
+        }
+    });
+});*/
+
+      
+        /*if(e.target.color == 'purple'){
+             e.target.setStyle({
+             color: 'red',
+              fillColor: 'red'     
+         })
+        }
+        */
+        
+        
+        
+      
+        
+        
+        
+        /*totonnos.color = 'green'
+        difara.color = 'red'
+        
+        e.target.setStyle({
+            color: 'black',
+            fillColor: 'black'
+        
+        
+        pizza.eachLayer(function(layer) {
+    layer.on('mouseover', function(e) {
+        layer.bindPopup ("<b>Pizza Zone</b>") 
+        e.target.setStyle({
+            color: 'black',
+            fillColor: 'black'
+        });
+    });
+            }
+                layer.on('mouseout', function(e) {
+        if(e.target.color == 'red') {
+            e.target.setStyle(difaraOptions);
+        } else if (e.target.color == 'green') {
+                e.target.setStyle(totonnosOptions);      
+        }
+    });
+});*/
+        
+            // layer.on('dragend', function(e) {
+        //if(e.target.color == 'yellow') {
+          //  e.target.setStyle(difara.color);   
+        //}
+    //});
+
+    
+      
+
+  //          buildPopup (data[i].names, data[i].yelpStar)
+    //    }
+        
+/*
+pats.color = 'red';
+pats.addTo(cheeseSteaks);
+var jims = L.circle([39.9415559,-75.1514984], 300, jimsOptions);
+jims.color = 'black';
+var popup = "hey"
+
+
+cheeseSteaks.eachLayer(function(layer) {
+    layer.on('mouseover', function(e) {
+        e.target.setStyle({
+            color: 'yellow',
+            fillColor: 'yellow'
+            
+        });
+    });
+    layer.on('mouseout', function(e) {
+        if(e.target.color == 'red') {
+            e.target.setStyle(patsOptions);
+        } else if (e.target.color == 'black') {
+                e.target.setStyle(jimsOptions);      
+        }
+    });
+});
+
+         for (i =0; i < data.length; i++) { 
+               var b = data[i].name 
+               var c = data[i].yelpStar
+               var d = data[i].yelpSentence
+               console.log(data[i]) 
+*/
+
+                  
+    </script>
+    
+</body>
+
+</html>
